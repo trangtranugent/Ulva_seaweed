@@ -222,6 +222,10 @@ ggplot(summary_df, aes(x = DPI, y = mean_growth, color = Strain, group = Strain)
     legend.title = element_blank(),
     panel.border = element_rect(colour="black", fill=NA)
   )
+savePlot(filename ="F:/Pathoviewer data/Emma_seaweed/biomass.pdf",
+         type = c("pdf"),
+         device = dev.cur(),
+         restoreConsole = TRUE)
 
 #### Fv/Fm ####
 win.graph(w=5,h=4)
@@ -245,6 +249,10 @@ ggplot(data, aes(x=Strain, y=Fv.Fm, fill=Strain)) +
     legend.direction = "vertical"
   ) +
   facet_grid(~DPI)
+savePlot(filename ="F:/Pathoviewer data/Emma_seaweed/FvFm.pdf",
+         type = c("pdf"),
+         device = dev.cur(),
+         restoreConsole = TRUE)
 
 
 #### ChlIdx ####
@@ -269,6 +277,10 @@ ggplot(data, aes(x=Strain, y=ChlIdx, fill=Strain)) +
     legend.direction = "vertical"
   ) +
   facet_grid(~DPI)
+savePlot(filename ="F:/Pathoviewer data/Emma_seaweed/ChlIdx.pdf",
+         type = c("pdf"),
+         device = dev.cur(),
+         restoreConsole = TRUE)
 
 #### mARI ####
 win.graph(w=5,h=4)
@@ -292,6 +304,10 @@ ggplot(data, aes(x=Strain, y=AriIdx, fill=Strain)) +
     legend.direction = "vertical"
   ) +
   facet_grid(~DPI)
+savePlot(filename ="F:/Pathoviewer data/Emma_seaweed/AriIdx.pdf",
+         type = c("pdf"),
+         device = dev.cur(),
+         restoreConsole = TRUE)
 
 #### NDVI ####
 win.graph(w=5,h=4)
@@ -315,6 +331,10 @@ ggplot(data, aes(x=Strain, y=NDVI, fill=Strain)) +
     legend.direction = "vertical"
   ) +
   facet_grid(~DPI)
+savePlot(filename ="F:/Pathoviewer data/Emma_seaweed/NDVI.pdf",
+         type = c("pdf"),
+         device = dev.cur(),
+         restoreConsole = TRUE)
 #### FvFm class ####
 colnames(data)[5:9] <- c("Class I", 
                          "Class II",
