@@ -34,7 +34,7 @@ library(Rmisc)
 
 #### Data input ####
 
-data=read.xlsx("F:/Pathoviewer data/Emma_seaweed/Data_Analysis_Report_20251203_1500.xlsx",
+data=read.xlsx("F:/Pathoviewer data/Emma_seaweed/Data_Analysis_Report_20251205_1214.xlsx",
                startRow=174, colNames=TRUE, 
                skipEmptyRow=TRUE, rowNames=FALSE)
 colnames(data) <- gsub("Fv/Fm", "Fv.Fm", colnames(data))
@@ -45,7 +45,7 @@ data <- data[, c("File", "Roi.No","Roi.Mask","Fv.Fm",
                  "Gfp.I.(%)","Gfp.II.(%)","Gfp.III.(%)","Gfp.IV.(%)","Gfp.V.(%)","Comment")]
 library(stringr)
 ### dpi
-dpi_pattern <- "(2day|3day|5day)"
+dpi_pattern <- "(2day|3day|5day|4day)"
 
 data <- data %>%
   mutate(DPI = str_extract(Comment, dpi_pattern)) %>%
@@ -55,6 +55,7 @@ data<-data %>%
     DPI=="1day" ~ "1 DPI",
     DPI=="2day" ~ "2 DPI",
     DPI=="3day" ~ "3 DPI",
+    DPI=="4day" ~ "4 DPI",
     TRUE ~ DPI
   ))
 
@@ -152,10 +153,10 @@ analyze_dpi <- function(df, dpi_value) {
 letter_1dpi <- analyze_dpi(data, "1 DPI")
 letter_2dpi <- analyze_dpi(data, "2 DPI")
 letter_3dpi <- analyze_dpi(data, "3 DPI")
-
+letter_4dpi <- analyze_dpi(data, "4 DPI")
 
 # --- Combine results ---
-letters_df <- rbind(letter_1dpi,letter_2dpi, letter_3dpi)
+letters_df <- rbind(letter_1dpi,letter_2dpi, letter_3dpi,letter_4dpi)
 letters_df
 
 # Creating the plot with the filtered data
@@ -200,7 +201,7 @@ library(ggplot2)
 
 # summarize means for line chart
 summary_df <- data %>%
-  group_by(DPI, Strain,Roi.No) %>%
+  group_by(DPI, Strain) %>%
   summarise(
     mean_growth = mean(Roi.Mask, na.rm = TRUE),
     se = sd(Roi.Mask, na.rm = TRUE) / sqrt(n()),
@@ -220,8 +221,7 @@ ggplot(summary_df, aes(x = DPI, y = mean_growth, color = Strain, group = Strain)
     axis.title = element_text(face="bold"),
     legend.title = element_blank(),
     panel.border = element_rect(colour="black", fill=NA)
-  )+
-  facet_grid(~Roi.No)
+  )
 
 #### Fv/Fm ####
 win.graph(w=5,h=4)
